@@ -1,16 +1,39 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./css/main.css" />
-  <title>Document</title>
-</head>
-<body>
-<ul class="js-task-list"></ul>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/main.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <ul class="js-task-list"></ul>
 
+    <form class="form">
+      <h2 class="title--medium">Añadir una nueva tarea</h2>
+      <div class="form__line">
+        <label class="form__label" for="name">Nueva tarea</label>
+        <input
+          class="js_taskInput js_input form__input-text"
+          type="text"
+          name="name"
+          id="name"
+          placeholder="Ej: Hacer la colada"
+        />
+      </div>
+      <div class="form__line">
+        <label class="form__label" for="name">Describe la tarea</label>
+        <input
+          class="js_descInput js_input form__input-text"
+          type="text"
+          name="name"
+          id="name"
+          placeholder="Ej: Separa blanco de colores"
+        />
+      </div>
+      <input class="js_saveBtn form__btn" type="submit" value="Guardar" />
+    </form>
 
-<script src="./js/main.js"></script>
-</body>
-
+    <script src="./js/main.js"></script>
+  </body>
 </html>

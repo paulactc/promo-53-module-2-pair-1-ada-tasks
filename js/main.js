@@ -35,7 +35,9 @@ for (const task of tasks) {
 //DOCUMENT QUERY SELECTOR
 
 const tasksUl=document.querySelector(".js-task-list");
-
+const taskInput = document.querySelector('.js_taskInput');
+const saveBtn = document.querySelector('.js_saveBtn');
+const descInput = document.querySelector('.js_descInput');
 //VARIABLES DE DATOS 
 
 const GITHUB_USER = "paulactc";
@@ -58,7 +60,35 @@ fetch(SERVER_URL)
 
 });
 
-    
+//POST
+const handleNewTask = (event) => {
+  event.preventDefault();
+
+  const task = taskInput.value;
+  const taskDesc = descInput.value;
+
+  const newTask = {
+    name: task,
+    desc: taskDesc,
+  };
+
+   fetch(
+    `https://dev.adalab.es/api/todo/${GITHUB_USER}`,
+    {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(newTask)
+    }
+  )
+    .then(res => res.json())
+    .then(dataResponseSave => {
+      console.log(dataResponseSave);
+      
+    });
+  
+}
+  // 4. Vuelve a pintar las tareas
+;
 
 
 
