@@ -1,12 +1,13 @@
 'use strict';
 
-let tasks =[];
+
 
 /*= [
   { name: "Recoger setas en el campo", completed: true, id: 1 },
   { name: "Comprar pilas", completed: true, id: 2 },
   { name: "Poner una lavadora de blancos", completed: true, id: 3 },
   {
+  
     name: "Aprender cómo se realizan las peticiones al servidor en JavaScript",
     completed: false,
     id: 4,
@@ -37,20 +38,30 @@ const tasksUl=document.querySelector(".js-task-list");
 
 //VARIABLES DE DATOS 
 
-const GITHUB_USER = "<paulactc>";
+const GITHUB_USER = "paulactc";
 const SERVER_URL = `https://dev.adalab.es/api/todo/${GITHUB_USER}`;
+
+//VARIABLE ARRAY
+let tasks =[];
 
 //FETCH
 fetch(SERVER_URL)
-.then( (response)=>{
-  return response.json();})
-.then((data)=>
-  {tasks=data;
-for (const task of tasks) {
-  tasksUl.innerHTML += `<li>${task}</li>`;
+.then((response) =>
+  response.json())
+.then((data) =>{
+  tasks=data.results 
+  
+  for (const task of tasks) {
+  tasksUl.innerHTML += `<li>${task.name}</li>`;
+  console.log(task.name);
 }
 
 });
+
+    
+
+
+
 
 
 //Completa el código;
