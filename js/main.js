@@ -1,6 +1,4 @@
-'use strict';
-
-
+"use strict";
 
 /*= [
   { name: "Recoger setas en el campo", completed: true, id: 1 },
@@ -32,37 +30,24 @@ for (const task of tasks) {
   
 }*/
 
-
-const tasksLocalStorage = JSON.parse(localStorage.getItem("tasks"));
+const tasksLocalStorage = JSON.parse(localStorage.getItem("tasks-cache"));
 console.log(tasksLocalStorage);
 
 //DOCUMENT QUERY SELECTOR
 
-const tasksUl=document.querySelector(".js-task-list");
-const taskInput = document.querySelector('.js_taskInput');
-const saveBtn = document.querySelector('.js_saveBtn');
-const descInput = document.querySelector('.js_descInput');
-//VARIABLES DE DATOS 
+const tasksUl = document.querySelector(".js-task-list");
+const taskInput = document.querySelector(".js_taskInput");
+const saveBtn = document.querySelector(".js_saveBtn");
+const descInput = document.querySelector(".js_descInput");
+//VARIABLES DE DATOS
 
 const GITHUB_USER = "paulactc";
 const SERVER_URL = `https://dev.adalab.es/api/todo/${GITHUB_USER}`;
 
 //VARIABLE ARRAY
-let tasks =[];
+let tasks = [];
 
 //FETCH GET
-fetch(SERVER_URL)
-.then((response) =>
-  response.json())
-.then((data) =>{
-  tasks=data.results 
-  
-  for (const task of tasks) {
-  tasksUl.innerHTML += `<li>${task.name} </li>`;
-  console.log(task.name);
-}
-
-});
 
 //FUNCION MANEJADORA
 const handleNewTask = (event) => {
@@ -72,57 +57,57 @@ const handleNewTask = (event) => {
   const taskDesc = descInput.value;
 
   const newTask = {
+    id: tasks.length,
     name: task,
-    desc: taskDesc,
+    completed: false
   };
 
-
-    //enviar info
-    // FETCH POST
-   fetch(
-    `https://dev.adalab.es/api/todo/${GITHUB_USER}`,
-    {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(newTask)
-    }
-  )
-    .then(res => res.json())
-    .then(dataResponseSave => {
+  //enviar info
+  // FETCH POST
+  fetch(`https://dev.adalab.es/api/todo/${GITHUB_USER}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(newTask),
+  })
+    .then((res) => res.json())
+    .then((dataResponseSave) => {
       console.log(dataResponseSave);
       tasks.push(newTask);
+      localStorage.setItem('tasks-cache', JSON.stringify( tasks ) );
+      tasksUl.innerHTML = "";
 
-      tasksUl.innerHTML="";
-
-       for (const task of tasks) {
-  tasksUl.innerHTML += `<li>${task.name} </li>`;
-  console.log(task.name);
-}
-
-    });
+      for (const task of tasks) {
+        tasksUl.innerHTML += `<li>${task.name} </li>`;
+        console.log(task.name);
       }
+    });
+};
 
-      //EVENTO DE ESCUCHA 
-     saveBtn.addEventListener('click',handleNewTask) 
-     
-      //CONDICIONAL SERVIDOR
+//EVENTO DE ESCUCHA
+saveBtn.addEventListener("click", handleNewTask);
 
-     if (tasksLocalStorage !== null) {
-       tasksUl = JSON.parse(localStorage.getItem('kittens-cache'));
-  // si (existe el listado de tareas en Local Storage)
-  // pinta la lista de tareas almacenadas en tasksLocalStorage
-} else {
-  //sino existe el listado de tareas en el local storage
-  // pide los datos al servidor
+//CONDICIONAL SERVIDOR
+
+if (tasksLocalStorage !== null) {
+tasks = tasksLocalStorage
+  for (const task of tasks) {
+        tasksUl.innerHTML += `<li>${task.name} </li>`;
+        console.log(task.name);
+      }
+  
+        } else {
   fetch(SERVER_URL)
     .then((response) => response.json())
     .then((data) => {
-      //guarda el listado obtenido en el Local Storage
-      // pinta la lista de tareas
+      tasks = data.results;
+      localStorage.setItem('tasks-cache', JSON.stringify( tasks ) );
+      for (const task of tasks) {
+        tasksUl.innerHTML += `<li>${task.name} </li>`;
+        console.log(task.name);
+      }
     })
     .catch((error) => {
       console.error(error);
     });
 }
-   
-
+console.log('Esto ya estaría')
